@@ -6,8 +6,9 @@ import os
 import re
 import math
 
-#receive a string f
 def count(f):
+#receive a string f
+# count details in each file
     #lower
     f=f.lower()
     #count tokens
@@ -85,7 +86,7 @@ avg_t=token_num*1.0/docs_num
 
 print "total_tokens=%s\nunique_terms=%s\nunique_terms_only1=%s\navg_tokens_per_doc=%s" \
           %(token_num,unique_num,val_eq1_num,avg_t)
-print '*******TOP30********\n%s' % str(val_top30)
+print '************TOP30*************\n' 
+for term in val_top30:
+    print term
 
-#with open ('/Users/hanxinlei/wkp/log','w') as f:
-#    f.write(str(results))
