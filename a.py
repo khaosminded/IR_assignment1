@@ -42,14 +42,14 @@ results=[]
 file_list = os.listdir(os.getcwd())
 for file_name in file_list:
     docs_num+=1
-    with open(file_list[1],'r') as f:
+    with open(file_name,'r') as f:
         #results is a list in form of[[token_count,tf],..]
         results.append(count(f.read().decode("utf-8-sig").encode("utf-8")))
 
 #calculate answer of request
-aggregate={}
+aggregate={}#unique terms from all file & their freq
+#1
 for i in results:
-    #1
     token_num+=i[0]
 for i in results:
     for (k,v) in i[1].items():
@@ -72,21 +72,20 @@ list_top30=sorted(aggregate.iteritems(),key=lambda d:d[1],reverse=True)[0:30]
 for (k,v) in list_top30:
     #val_top30[term,TF,IDF,TF*IDF,P]
     DFt=0
-    print k
     for obj in results:#each obj of result =>a file. obj[1] unique words dict.
         if obj[1].get(k,-1) != -1:
             DFt+=1
-    IDF=math.log(10,docs_num*1.0/DFt)
-    val_top30.append(list(k,v,IDF,IDF*v,v*1.0/Nt))
+    IDF=math.log(docs_num*1.0/DFt,10)
+    val_top30.append([k,v,IDF,IDF*v,v*1.0/Nt])
 
 #5
 avg_t=token_num*1.0/docs_num
-#print token_num,unique_num,val_eq1_num,avg_t
-#print '*******TOP30********\n%s' % str(val_top30)
 
+#main end, print start 
 
-#main end
-#math.log()
-#print aggregate.get('',-1)
+print "total_tokens=%s\nunique_terms=%s\nunique_terms_only1=%s\navg_tokens_per_doc=%s" \
+          %(token_num,unique_num,val_eq1_num,avg_t)
+print '*******TOP30********\n%s' % str(val_top30)
+
 #with open ('/Users/hanxinlei/wkp/log','w') as f:
 #    f.write(str(results))
